@@ -20,10 +20,23 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * Creates a new {@code UserController}.
+     *
+     * @param userService user service collaborator
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Handles GET.
+     *
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @param storeId store (tenant) identifier
+     * @return matching records
+     */
     @GetMapping
     public List<User> findAll(
             @RequestHeader(value = "X-User-Id", required = false) String userId,
@@ -35,6 +48,14 @@ public class UserController {
         return userService.findAll();
     }
 
+    /**
+     * Handles {@code GET /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the user
+     */
     @GetMapping("/{id}")
     public User findById(
             @PathVariable String id,
@@ -43,6 +64,14 @@ public class UserController {
         return userService.findById(id);
     }
 
+    /**
+     * Handles {@code GET /email/{email}}.
+     *
+     * @param email email address
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the user
+     */
     @GetMapping("/email/{email}")
     public User findByEmail(
             @PathVariable String email,
@@ -51,6 +80,14 @@ public class UserController {
         return userService.findByEmail(email);
     }
 
+    /**
+     * Handles POST.
+     *
+     * @param req request payload
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @PostMapping
     public ResponseEntity<User> create(
             @Valid @RequestBody CreateUserRequest req,
@@ -59,6 +96,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(req));
     }
 
+    /**
+     * Handles {@code PATCH /{id}}.
+     *
+     * @param id resource identifier
+     * @param req request payload
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the user
+     */
     @PatchMapping("/{id}")
     public User update(
             @PathVariable String id,
@@ -68,6 +114,14 @@ public class UserController {
         return userService.update(id, req);
     }
 
+    /**
+     * Handles {@code DELETE /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable String id,
