@@ -15,7 +15,7 @@ import java.util.List;
  * REST controller exposing address HTTP APIs for <em>auth-service</em>.
  */
 @RestController
-@RequestMapping("/addresses")
+@RequestMapping("/api/address")
 public class AddressController {
 
     private final AddressService addressService;
