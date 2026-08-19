@@ -18,23 +18,50 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
+    /**
+     * Creates a new {@code AddressService}.
+     *
+     * @param addressRepository address repository collaborator
+     */
     public AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
 
+    /**
+     * Finds all.
+     * @return matching records
+     */
     public List<Address> findAll() {
         return addressRepository.findAll();
     }
 
+    /**
+     * Finds by id.
+     *
+     * @param id resource identifier
+     * @return the address
+     */
     public Address findById(String id) {
         return addressRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Address not found: " + id));
     }
 
+    /**
+     * Finds by user id.
+     *
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @return matching records
+     */
     public List<Address> findByUserId(String userId) {
         return addressRepository.findByUserId(userId);
     }
 
+    /**
+     * Creates a new record.
+     *
+     * @param req request payload
+     * @return the address
+     */
     @Transactional
     public Address create(CreateAddressRequest req) {
         Address address = new Address();
@@ -48,6 +75,13 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
+    /**
+     * Updates an existing record.
+     *
+     * @param id resource identifier
+     * @param req request payload
+     * @return the address
+     */
     @Transactional
     public Address update(String id, UpdateAddressRequest req) {
         Address address = findById(id);
@@ -60,6 +94,11 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
+    /**
+     * Deletes the record.
+     *
+     * @param id resource identifier
+     */
     @Transactional
     public void delete(String id) {
         if (!addressRepository.existsById(id)) {

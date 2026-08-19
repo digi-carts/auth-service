@@ -17,24 +17,51 @@ public class PasswordResetTokenService {
 
     private final PasswordResetTokenRepository tokenRepository;
 
+    /**
+     * Creates a new {@code PasswordResetTokenService}.
+     *
+     * @param tokenRepository token repository collaborator
+     */
     public PasswordResetTokenService(PasswordResetTokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
 
+    /**
+     * Finds all.
+     * @return matching records
+     */
     public List<PasswordResetToken> findAll() {
         return tokenRepository.findAll();
     }
 
+    /**
+     * Finds by id.
+     *
+     * @param id resource identifier
+     * @return the password reset token
+     */
     public PasswordResetToken findById(String id) {
         return tokenRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PasswordResetToken not found: " + id));
     }
 
+    /**
+     * Finds by token.
+     *
+     * @param token token value
+     * @return the password reset token
+     */
     public PasswordResetToken findByToken(String token) {
         return tokenRepository.findByToken(token)
                 .orElseThrow(() -> new EntityNotFoundException("Token not found"));
     }
 
+    /**
+     * Creates a new record.
+     *
+     * @param req request payload
+     * @return the password reset token
+     */
     @Transactional
     public PasswordResetToken create(CreatePasswordResetTokenRequest req) {
         PasswordResetToken prt = new PasswordResetToken();
@@ -44,11 +71,21 @@ public class PasswordResetTokenService {
         return tokenRepository.save(prt);
     }
 
+    /**
+     * Delete by email.
+     *
+     * @param email email address
+     */
     @Transactional
     public void deleteByEmail(String email) {
         tokenRepository.deleteByEmail(email);
     }
 
+    /**
+     * Deletes the record.
+     *
+     * @param id resource identifier
+     */
     @Transactional
     public void delete(String id) {
         if (!tokenRepository.existsById(id)) {

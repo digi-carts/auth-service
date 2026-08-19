@@ -20,10 +20,23 @@ public class AddressController {
 
     private final AddressService addressService;
 
+    /**
+     * Creates a new {@code AddressController}.
+     *
+     * @param addressService address service collaborator
+     */
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
+    /**
+     * Handles GET.
+     *
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @param userId2 user id2
+     * @return matching records
+     */
     @GetMapping
     public List<Address> findAll(
             @RequestHeader(value = "X-User-Id", required = false) String userId,
@@ -35,6 +48,14 @@ public class AddressController {
         return addressService.findAll();
     }
 
+    /**
+     * Handles {@code GET /user/{userId}}.
+     *
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param requestUserId request user id
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return matching records
+     */
     @GetMapping("/user/{userId}")
     public List<Address> findByUserId(
             @PathVariable String userId,
@@ -43,6 +64,14 @@ public class AddressController {
         return addressService.findByUserId(userId);
     }
 
+    /**
+     * Handles {@code GET /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the address
+     */
     @GetMapping("/{id}")
     public Address findById(
             @PathVariable String id,
@@ -51,6 +80,14 @@ public class AddressController {
         return addressService.findById(id);
     }
 
+    /**
+     * Handles POST.
+     *
+     * @param req request payload
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @PostMapping
     public ResponseEntity<Address> create(
             @Valid @RequestBody CreateAddressRequest req,
@@ -59,6 +96,15 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addressService.create(req));
     }
 
+    /**
+     * Handles {@code PATCH /{id}}.
+     *
+     * @param id resource identifier
+     * @param req request payload
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the address
+     */
     @PatchMapping("/{id}")
     public Address update(
             @PathVariable String id,
@@ -68,6 +114,14 @@ public class AddressController {
         return addressService.update(id, req);
     }
 
+    /**
+     * Handles {@code DELETE /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable String id,

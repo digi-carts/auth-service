@@ -10,10 +10,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebConfig {
-
+    /**
+     * Cors configurer.
+     * @return the web mvc configurer
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
+            /**
+             * Configures CORS mappings.
+             *
+             * @param registry registry
+             */
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")

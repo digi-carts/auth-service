@@ -18,28 +18,61 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Creates a new {@code UserService}.
+     *
+     * @param userRepository user repository collaborator
+     */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Finds all.
+     * @return matching records
+     */
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    /**
+     * Finds by id.
+     *
+     * @param id resource identifier
+     * @return the user
+     */
     public User findById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + id));
     }
 
+    /**
+     * Finds by email.
+     *
+     * @param email email address
+     * @return the user
+     */
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
     }
 
+    /**
+     * Finds by store id.
+     *
+     * @param storeId store (tenant) identifier
+     * @return matching records
+     */
     public List<User> findByStoreId(String storeId) {
         return userRepository.findByStoreId(storeId);
     }
 
+    /**
+     * Creates a new record.
+     *
+     * @param req request payload
+     * @return the user
+     */
     @Transactional
     public User create(CreateUserRequest req) {
         User user = new User();
@@ -55,6 +88,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Updates an existing record.
+     *
+     * @param id resource identifier
+     * @param req request payload
+     * @return the user
+     */
     @Transactional
     public User update(String id, UpdateUserRequest req) {
         User user = findById(id);
@@ -70,6 +110,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Deletes the record.
+     *
+     * @param id resource identifier
+     */
     @Transactional
     public void delete(String id) {
         if (!userRepository.existsById(id)) {

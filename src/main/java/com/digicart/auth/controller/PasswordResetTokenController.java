@@ -17,10 +17,23 @@ public class PasswordResetTokenController {
 
     private final PasswordResetTokenService tokenService;
 
+    /**
+     * Creates a new {@code PasswordResetTokenController}.
+     *
+     * @param tokenService token service collaborator
+     */
     public PasswordResetTokenController(PasswordResetTokenService tokenService) {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Handles {@code GET /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the password reset token
+     */
     @GetMapping("/{id}")
     public PasswordResetToken findById(
             @PathVariable String id,
@@ -29,6 +42,14 @@ public class PasswordResetTokenController {
         return tokenService.findById(id);
     }
 
+    /**
+     * Handles {@code GET /token/{token}}.
+     *
+     * @param token token value
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return the password reset token
+     */
     @GetMapping("/token/{token}")
     public PasswordResetToken findByToken(
             @PathVariable String token,
@@ -37,6 +58,14 @@ public class PasswordResetTokenController {
         return tokenService.findByToken(token);
     }
 
+    /**
+     * Handles POST.
+     *
+     * @param req request payload
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @PostMapping
     public ResponseEntity<PasswordResetToken> create(
             @Valid @RequestBody CreatePasswordResetTokenRequest req,
@@ -45,6 +74,14 @@ public class PasswordResetTokenController {
         return ResponseEntity.status(HttpStatus.CREATED).body(tokenService.create(req));
     }
 
+    /**
+     * Handles {@code DELETE /{id}}.
+     *
+     * @param id resource identifier
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable String id,
@@ -54,6 +91,14 @@ public class PasswordResetTokenController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Handles {@code DELETE /email/{email}}.
+     *
+     * @param email email address
+     * @param userId caller user id from the gateway ({@code X-User-Id})
+     * @param userRole caller role from the gateway ({@code X-User-Role})
+     * @return HTTP response
+     */
     @DeleteMapping("/email/{email}")
     public ResponseEntity<Void> deleteByEmail(
             @PathVariable String email,

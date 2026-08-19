@@ -117,3 +117,7 @@ Push `stage` → Cloud Run `digi-cart-auth-service-dev`. Push `main` → release
 - [api-gateway](https://github.com/digi-carts/api-gateway/blob/stage/doc/README.md)
 - [platform-service](https://github.com/digi-carts/platform-service/blob/stage/doc/README.md) (subscriptions, admin users)
 - [merchant-ui](https://github.com/digi-carts/merchant-ui/blob/stage/doc/README.md)
+
+## REST API reference
+
+See [api.md](api.md) for every HTTP endpoint generated from Spring controllers.

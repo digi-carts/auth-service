@@ -12,7 +12,25 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+    /**
+     * Finds by email.
+     *
+     * @param email email address
+     * @return the value if present
+     */
     Optional<User> findByEmail(String email);
+    /**
+     * Finds by store id.
+     *
+     * @param storeId store (tenant) identifier
+     * @return matching records
+     */
     List<User> findByStoreId(String storeId);
+    /**
+     * Returns whether by email exists.
+     *
+     * @param email email address
+     * @return the boolean
+     */
     boolean existsByEmail(String email);
 }
