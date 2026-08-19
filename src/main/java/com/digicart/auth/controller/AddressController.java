@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller exposing address HTTP APIs for <em>auth-service</em>.
+ */
 @RestController
 @RequestMapping("/addresses")
 public class AddressController {

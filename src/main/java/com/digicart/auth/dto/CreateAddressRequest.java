@@ -2,6 +2,9 @@ package com.digicart.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Request/response DTO: Create Address Request.
+ */
 public class CreateAddressRequest {
 
     @NotBlank

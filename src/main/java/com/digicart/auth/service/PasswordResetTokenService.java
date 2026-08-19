@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Application service implementing password reset token use cases for <em>auth-service</em>.
+ */
 @Service
 public class PasswordResetTokenService {
 

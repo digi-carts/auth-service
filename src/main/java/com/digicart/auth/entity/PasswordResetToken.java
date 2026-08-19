@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
+/**
+ * JPA entity mapped in this service schema (Password Reset Token).
+ */
 @Entity
 @Table(name = "password_reset_tokens", schema = "auth_svc")
 @EntityListeners(AuditingEntityListener.class)
