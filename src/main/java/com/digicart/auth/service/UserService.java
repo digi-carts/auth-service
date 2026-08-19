@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Application service implementing user use cases for <em>auth-service</em>.
+ */
 @Service
 public class UserService {
 

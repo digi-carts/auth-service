@@ -4,6 +4,9 @@ import com.digicart.auth.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Request/response DTO: Create User Request.
+ */
 public class CreateUserRequest {
 
     @NotBlank
