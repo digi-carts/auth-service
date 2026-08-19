@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-create-schema" author="digicart">
+        <sql>CREATE SCHEMA IF NOT EXISTS auth_svc;</sql>
+    </changeSet>
+
+    <changeSet id="002-create-users" author="digicart">
+        <createTable tableName="users" schemaName="auth_svc">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="provider" type="VARCHAR(255)"/>
+            <column name="provider_account_id" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(50)" defaultValue="user">
+                <constraints nullable="false"/>
+            </column>
+            <column name="store_id" type="VARCHAR(255)"/>
+            <column name="subscription_id" type="VARCHAR(255)"/>
+            <column name="blocked" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_login_at" type="TIMESTAMPTZ"/>
+            <column name="setup_status" type="VARCHAR(100)" defaultValue="CREATED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="setup_wizard_page" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_users_store_id" tableName="users" schemaName="auth_svc">
+            <column name="store_id"/>
+        </createIndex>
+        <createIndex indexName="idx_users_email" tableName="users" schemaName="auth_svc">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="003-create-addresses" author="digicart">
+        <createTable tableName="addresses" schemaName="auth_svc">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="line1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zip" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_default" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_addresses_user_id" tableName="addresses" schemaName="auth_svc">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="004-create-password-reset-tokens" author="digicart">
+        <createTable tableName="password_reset_tokens" schemaName="auth_svc">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="TIMESTAMPTZ">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMPTZ" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_prt_email" tableName="password_reset_tokens" schemaName="auth_svc">
+            <column name="email"/>
+        </createIndex>
+        <createIndex indexName="idx_prt_token" tableName="password_reset_tokens" schemaName="auth_svc">
+            <column name="token"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

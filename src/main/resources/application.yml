@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    default-schema: auth_svc
+    liquibase-schema: auth_svc
+server:
+  port: ${PORT:3001}
