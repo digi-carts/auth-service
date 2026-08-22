@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Application service implementing password reset token use cases for <em>auth-service</em>.
@@ -26,7 +27,7 @@ public class PasswordResetTokenService {
     }
 
     public PasswordResetToken findById(String id) {
-        return tokenRepository.findById(id)
+        return tokenRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new EntityNotFoundException("PasswordResetToken not found: " + id));
     }
 
@@ -51,9 +52,10 @@ public class PasswordResetTokenService {
 
     @Transactional
     public void delete(String id) {
-        if (!tokenRepository.existsById(id)) {
+        UUID uuid = UUID.fromString(id);
+        if (!tokenRepository.existsById(uuid)) {
             throw new EntityNotFoundException("PasswordResetToken not found: " + id);
         }
-        tokenRepository.deleteById(id);
+        tokenRepository.deleteById(uuid);
     }
 }

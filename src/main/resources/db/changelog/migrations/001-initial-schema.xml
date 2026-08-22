@@ -5,7 +5,7 @@
 
     <changeSet id="001-create-schema" author="digicart" runAlways="true">
         <validCheckSum>ANY</validCheckSum>
-        <sql>CREATE SCHEMA IF NOT EXISTS auth_svc</sql>
+        <sql>CREATE SCHEMA IF NOT EXISTS auth_svc;</sql>
     </changeSet>
 
     <changeSet id="002-create-users" author="digicart">
