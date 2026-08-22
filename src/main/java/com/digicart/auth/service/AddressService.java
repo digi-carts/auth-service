@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AddressService {
@@ -24,7 +25,7 @@ public class AddressService {
     }
 
     public Address findById(String id) {
-        return addressRepository.findById(id)
+        return addressRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new EntityNotFoundException("Address not found: " + id));
     }
 
@@ -59,9 +60,10 @@ public class AddressService {
 
     @Transactional
     public void delete(String id) {
-        if (!addressRepository.existsById(id)) {
+        UUID uuid = UUID.fromString(id);
+        if (!addressRepository.existsById(uuid)) {
             throw new EntityNotFoundException("Address not found: " + id);
         }
-        addressRepository.deleteById(id);
+        addressRepository.deleteById(uuid);
     }
 }

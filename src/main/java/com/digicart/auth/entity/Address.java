@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "addresses", schema = "auth_svc")
@@ -13,7 +14,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     @Column(name = "user_id", nullable = false)
     private String userId;
@@ -42,8 +43,8 @@ public class Address {
 
     public Address() {}
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
     public String getName() { return name; }

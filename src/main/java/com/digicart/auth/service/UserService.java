@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -24,7 +25,7 @@ public class UserService {
     }
 
     public User findById(String id) {
-        return userRepository.findById(id)
+        return userRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + id));
     }
 
@@ -69,9 +70,10 @@ public class UserService {
 
     @Transactional
     public void delete(String id) {
-        if (!userRepository.existsById(id)) {
+        UUID uuid = UUID.fromString(id);
+        if (!userRepository.existsById(uuid)) {
             throw new EntityNotFoundException("User not found: " + id);
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(uuid);
     }
 }
