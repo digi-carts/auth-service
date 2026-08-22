@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -41,19 +42,21 @@ class UserServiceTest {
 
     @Test
     void updateBlocksUser() {
+        UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000001");
         User existing = new User();
-        existing.setId("u1");
+        existing.setId(userId);
         existing.setEmail("a@b.com");
-        when(userRepository.findById("u1")).thenReturn(Optional.of(existing));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existing));
         when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
         UpdateUserRequest req = new UpdateUserRequest();
         req.setBlocked(true);
-        assertThat(userService.update("u1", req).getBlocked()).isTrue();
+        assertThat(userService.update(userId.toString(), req).getBlocked()).isTrue();
     }
 
     @Test
     void deleteMissingThrows() {
-        when(userRepository.existsById("nope")).thenReturn(false);
-        assertThatThrownBy(() -> userService.delete("nope")).isInstanceOf(EntityNotFoundException.class);
+        UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000099");
+        when(userRepository.existsById(userId)).thenReturn(false);
+        assertThatThrownBy(() -> userService.delete(userId.toString())).isInstanceOf(EntityNotFoundException.class);
     }
 }
