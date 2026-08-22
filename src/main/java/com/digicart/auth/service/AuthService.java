@@ -3,6 +3,7 @@ package com.digicart.auth.service;
 import com.digicart.auth.dto.AuthResponse;
 import com.digicart.auth.dto.LoginRequest;
 import com.digicart.auth.dto.RegisterRequest;
+import com.digicart.auth.dto.UserDto;
 import com.digicart.auth.entity.Role;
 import com.digicart.auth.entity.User;
 import com.digicart.auth.exception.BadCredentialsException;
@@ -84,7 +85,7 @@ public class AuthService {
     private AuthResponse buildResponse(User user) {
         String accessToken  = buildToken(user, ACCESS_TTL_MS);
         String refreshToken = buildToken(user, REFRESH_TTL_MS);
-        return new AuthResponse(user, accessToken, refreshToken);
+        return new AuthResponse(UserDto.from(user), accessToken, refreshToken);
     }
 
     private String buildToken(User user, long ttlMs) {
