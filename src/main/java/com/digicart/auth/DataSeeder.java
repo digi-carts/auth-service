@@ -25,6 +25,7 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) {
         seedUser("E2E_SUPERADMIN_EMAIL", "E2E_SUPERADMIN_PASSWORD", Role.superadmin, "COMPLETED");
         seedUser("E2E_ADMIN_EMAIL", "E2E_ADMIN_PASSWORD", Role.merchant, "COMPLETED");
+        seedUser("E2E_USER_EMAIL", "E2E_USER_PASSWORD", Role.user, "COMPLETED");
     }
 
     private void seedUser(String emailEnv, String passwordEnv, Role role, String setupStatus) {
