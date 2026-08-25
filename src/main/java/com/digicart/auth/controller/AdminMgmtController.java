@@ -27,7 +27,11 @@ public class AdminMgmtController {
     // --- Merchant admins ---
 
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> listAdmins() {
+    public ResponseEntity<?> listAdmins(
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        if (!"superadmin".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+        }
         return ResponseEntity.ok(service.listAll().stream().map(AdminMgmtService::safe).toList());
     }
 
@@ -96,23 +100,36 @@ public class AdminMgmtController {
     // --- Stats ---
 
     @GetMapping("/stats")
-    public ResponseEntity<Map<String, Object>> getStats() {
+    public ResponseEntity<?> getStats(
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        if (!"superadmin".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+        }
         return ResponseEntity.ok(service.getCustomerStats());
     }
 
     // --- Customer create ---
 
     @PostMapping("/customers")
-    public ResponseEntity<Map<String, Object>> createCustomer(@Valid @RequestBody AdminCreateRequest req) {
+    public ResponseEntity<?> createCustomer(
+            @Valid @RequestBody AdminCreateRequest req,
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        if (!"superadmin".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+        }
         return ResponseEntity.ok(AdminMgmtService.safe(service.createUser(req, Role.user)));
     }
 
     // --- Update store assignment ---
 
     @PatchMapping("/{id}/store")
-    public ResponseEntity<Map<String, Object>> updateStore(
+    public ResponseEntity<?> updateStore(
             @PathVariable String id,
-            @RequestBody Map<String, String> body) {
+            @RequestBody Map<String, String> body,
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        if (!"superadmin".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));
+        }
         return ResponseEntity.ok(AdminMgmtService.safe(service.updateUserStore(id, body.get("storeId"))));
     }
 }
