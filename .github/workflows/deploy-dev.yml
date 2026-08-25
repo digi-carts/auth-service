@@ -32,5 +32,5 @@ jobs:
           gcloud run services update ${{ env.SERVICE }} \
             --region ${{ env.REGION }} \
             --image ${{ env.IMAGE }}-dev:latest \
-            --update-env-vars "E2E_SUPERADMIN_EMAIL=${{ secrets.E2E_SUPERADMIN_EMAIL }},E2E_SUPERADMIN_PASSWORD=${{ secrets.E2E_SUPERADMIN_PASSWORD }},E2E_ADMIN_EMAIL=${{ secrets.E2E_ADMIN_EMAIL }},E2E_ADMIN_PASSWORD=${{ secrets.E2E_ADMIN_PASSWORD }}" \
+            --update-env-vars "E2E_SUPERADMIN_EMAIL=${{ secrets.E2E_SUPERADMIN_EMAIL }},E2E_SUPERADMIN_PASSWORD=${{ secrets.E2E_SUPERADMIN_PASSWORD }},E2E_ADMIN_EMAIL=${{ secrets.E2E_ADMIN_EMAIL }},E2E_ADMIN_PASSWORD=${{ secrets.E2E_ADMIN_PASSWORD }},E2E_USER_EMAIL=${{ secrets.E2E_USER_EMAIL }},E2E_USER_PASSWORD=${{ secrets.E2E_USER_PASSWORD }}" \
             --quiet
