@@ -6,20 +6,19 @@ import com.digicart.auth.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public DataSeeder(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataSeeder(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,9 +33,8 @@ public class DataSeeder implements CommandLineRunner {
         if (email == null || email.isBlank() || password == null || password.isBlank()) return;
 
         if (userRepository.existsByEmail(email)) {
-            // Update password in case it changed
             userRepository.findByEmail(email).ifPresent(u -> {
-                u.setPasswordHash(passwordEncoder.encode(password));
+                u.setPasswordHash(encoder.encode(password));
                 u.setRole(role);
                 u.setSetupStatus(setupStatus);
                 u.setBlocked(false);
@@ -48,7 +46,7 @@ public class DataSeeder implements CommandLineRunner {
 
         User user = new User();
         user.setEmail(email);
-        user.setPasswordHash(passwordEncoder.encode(password));
+        user.setPasswordHash(encoder.encode(password));
         user.setRole(role);
         user.setProvider("credentials");
         user.setSetupStatus(setupStatus);
