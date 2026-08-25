@@ -28,6 +28,10 @@ public class AdminMgmtService {
         this.userRepository = userRepository;
     }
 
+    public List<User> listAll() {
+        return userRepository.findAll();
+    }
+
     public List<User> listByRole(Role role) {
         return userRepository.findByRole(role);
     }
@@ -93,5 +97,18 @@ public class AdminMgmtService {
     private User findById(String id) {
         return userRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new EntityNotFoundException("User not found: " + id));
+    }
+
+    public Map<String, Object> getCustomerStats() {
+        long total = userRepository.countByRole(Role.user);
+        long active = userRepository.countByRoleAndBlocked(Role.user, false);
+        return Map.of("total", total, "active", active, "inactive", total - active);
+    }
+
+    @Transactional
+    public User updateUserStore(String id, String storeId) {
+        User user = findById(id);
+        user.setStoreId(storeId);
+        return userRepository.save(user);
     }
 }

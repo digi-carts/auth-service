@@ -28,7 +28,7 @@ public class AdminMgmtController {
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> listAdmins() {
-        return ResponseEntity.ok(service.listByRole(Role.merchant).stream().map(AdminMgmtService::safe).toList());
+        return ResponseEntity.ok(service.listAll().stream().map(AdminMgmtService::safe).toList());
     }
 
     @PostMapping
@@ -43,7 +43,8 @@ public class AdminMgmtController {
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> resetPassword(@PathVariable String id, @RequestBody Map<String, String> body) {
-        service.resetPassword(id, body.get("password"));
+        String pw = body.containsKey("newPassword") ? body.get("newPassword") : body.get("password");
+        service.resetPassword(id, pw);
         return ResponseEntity.noContent().build();
     }
 
@@ -67,8 +68,7 @@ public class AdminMgmtController {
 
     @DeleteMapping("/superadmin/{id}")
     public ResponseEntity<Void> deleteSuperadmin(@PathVariable String id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+        return deleteAdmin(id);
     }
 
     // --- Customers ---
@@ -91,5 +91,28 @@ public class AdminMgmtController {
             @RequestBody ChangePasswordRequest req) {
         service.changeOwnPassword(userId, req);
         return ResponseEntity.noContent().build();
+    }
+
+    // --- Stats ---
+
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getStats() {
+        return ResponseEntity.ok(service.getCustomerStats());
+    }
+
+    // --- Customer create ---
+
+    @PostMapping("/customers")
+    public ResponseEntity<Map<String, Object>> createCustomer(@Valid @RequestBody AdminCreateRequest req) {
+        return ResponseEntity.ok(AdminMgmtService.safe(service.createUser(req, Role.user)));
+    }
+
+    // --- Update store assignment ---
+
+    @PatchMapping("/{id}/store")
+    public ResponseEntity<Map<String, Object>> updateStore(
+            @PathVariable String id,
+            @RequestBody Map<String, String> body) {
+        return ResponseEntity.ok(AdminMgmtService.safe(service.updateUserStore(id, body.get("storeId"))));
     }
 }
