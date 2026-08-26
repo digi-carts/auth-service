@@ -112,7 +112,7 @@ public class AdminMgmtController {
 
     @PostMapping("/customers")
     public ResponseEntity<?> createCustomer(
-            @Valid @RequestBody AdminCreateRequest req,
+            @RequestBody AdminCreateRequest req,
             @RequestHeader(value = "X-User-Role", required = false) String userRole) {
         if (!"superadmin".equalsIgnoreCase(userRole)) {
             return ResponseEntity.status(403).body(Map.of("error", "Forbidden"));

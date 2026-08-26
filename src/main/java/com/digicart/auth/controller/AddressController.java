@@ -68,6 +68,14 @@ public class AddressController {
         return addressService.update(id, req);
     }
 
+    @PatchMapping("/{id}/default")
+    public ResponseEntity<Address> setDefault(
+            @PathVariable String id,
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        return ResponseEntity.ok(addressService.setDefault(id, userId));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable String id,
