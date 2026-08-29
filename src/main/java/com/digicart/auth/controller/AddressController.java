@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller exposing address HTTP APIs for <em>auth-service</em>.
+ */
 @RestController
-@RequestMapping("/addresses")
+@RequestMapping("/api/address")
 public class AddressController {
 
     private final AddressService addressService;
@@ -63,6 +66,14 @@ public class AddressController {
             @RequestHeader(value = "X-User-Id", required = false) String userId,
             @RequestHeader(value = "X-User-Role", required = false) String userRole) {
         return addressService.update(id, req);
+    }
+
+    @PatchMapping("/{id}/default")
+    public ResponseEntity<Address> setDefault(
+            @PathVariable String id,
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestHeader(value = "X-User-Role", required = false) String userRole) {
+        return ResponseEntity.ok(addressService.setDefault(id, userId));
     }
 
     @DeleteMapping("/{id}")

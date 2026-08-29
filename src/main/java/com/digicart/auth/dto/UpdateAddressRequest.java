@@ -1,5 +1,8 @@
 package com.digicart.auth.dto;
 
+/**
+ * Request/response DTO: Update Address Request.
+ */
 public class UpdateAddressRequest {
     private String name;
     private String line1;

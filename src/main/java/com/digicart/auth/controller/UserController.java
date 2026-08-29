@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller exposing user HTTP APIs for <em>auth-service</em>.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {

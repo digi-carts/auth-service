@@ -2,6 +2,9 @@ package com.digicart.auth.dto;
 
 import com.digicart.auth.entity.Role;
 
+/**
+ * Request/response DTO: Update User Request.
+ */
 public class UpdateUserRequest {
     private String name;
     private String phone;

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.Instant;
 
+/**
+ * Request/response DTO: Create Password Reset Token Request.
+ */
 public class CreatePasswordResetTokenRequest {
 
     @NotBlank

@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Application service implementing address use cases for <em>auth-service</em>.
+ */
 @Service
 public class AddressService {
 
@@ -55,6 +58,21 @@ public class AddressService {
         if (req.getCountry() != null) address.setCountry(req.getCountry());
         if (req.getZip() != null) address.setZip(req.getZip());
         if (req.getIsDefault() != null) address.setIsDefault(req.getIsDefault());
+        return addressRepository.save(address);
+    }
+
+    @Transactional
+    public Address setDefault(String id, String userId) {
+        Address address = findById(id);
+        // Clear default flag from all addresses of this user
+        List<Address> others = addressRepository.findByUserId(userId);
+        for (Address a : others) {
+            if (Boolean.TRUE.equals(a.getIsDefault())) {
+                a.setIsDefault(false);
+                addressRepository.save(a);
+            }
+        }
+        address.setIsDefault(true);
         return addressRepository.save(address);
     }
 

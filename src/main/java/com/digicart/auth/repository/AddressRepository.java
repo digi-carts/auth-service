@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Spring Data JPA repository for address  persistence.
+ */
 @Repository
 public interface AddressRepository extends JpaRepository<Address, UUID> {
     List<Address> findByUserId(String userId);

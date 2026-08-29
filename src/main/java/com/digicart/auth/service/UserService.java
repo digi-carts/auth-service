@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Application service implementing user use cases for <em>auth-service</em>.
+ */
 @Service
 public class UserService {
 

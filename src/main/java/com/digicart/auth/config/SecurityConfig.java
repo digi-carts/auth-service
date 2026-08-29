@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Spring Security filter chain. Downstream trust is via gateway headers; this chain permits all HTTP at the service edge.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
