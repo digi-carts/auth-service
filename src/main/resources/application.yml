@@ -16,8 +16,23 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
     liquibase-schema: public
+  cloud:
+    gcp:
+      trace:
+        enabled: true
+        sampling-rate: 1.0
+
 server:
   port: ${PORT:3001}
 app:
   jwt:
     secret: ${JWT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  tracing:
+    sampling:
+      probability: 1.0
