@@ -18,6 +18,8 @@ spring:
     liquibase-schema: public
   cloud:
     gcp:
+      sql:
+        enabled: false
       trace:
         enabled: true
         sampling-rate: 1.0
